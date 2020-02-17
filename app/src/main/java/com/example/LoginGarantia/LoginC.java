@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.LoginGarantia.model.ComercioM;
 import com.github.javiersantos.appupdater.AppUpdater;
+import com.github.javiersantos.appupdater.enums.Display;
 import com.github.javiersantos.appupdater.enums.UpdateFrom;
 
 public class LoginC extends AppCompatActivity {
@@ -40,8 +41,6 @@ public class LoginC extends AppCompatActivity {
         barra_progreso.getIndeterminateDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
         b = false;
 
-        AppUpdater appUpdater = new AppUpdater(this).setUpdateFrom(UpdateFrom.GITHUB).setGitHubUserAndRepo("SergioZambrana", "AppGarantiasRoghur");
-        appUpdater.start();
         btnIngresar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
