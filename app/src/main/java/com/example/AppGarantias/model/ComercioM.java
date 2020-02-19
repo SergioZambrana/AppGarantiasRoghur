@@ -1,7 +1,6 @@
-package com.example.LoginGarantia.model;
+package com.example.AppGarantias.model;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 import android.util.Log;
 
 import org.ksoap2.SoapEnvelope;
@@ -10,10 +9,11 @@ import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
 public class ComercioM {
-    private String Idcomercio;
-    private String NombreComercio;
-    private String Contraseña;
-    private String UbicacionComercio;
+    private String Idcomercio,
+            NombreComercio,
+            Contraseña,
+            UbicacionComercio,
+            Tipo;
 
     public String getIdcomercio() {
         return Idcomercio;
@@ -28,6 +28,7 @@ public class ComercioM {
         Contraseña = "";
         NombreComercio = "";
         UbicacionComercio = "";
+        Tipo = "";
     }
 
     public ComercioM(String idcomercio1, String contraseña1) {
@@ -35,15 +36,8 @@ public class ComercioM {
         Contraseña = contraseña1;
         NombreComercio = "";
         UbicacionComercio = "";
+        Tipo = "";
     }
-
-    protected ComercioM(Parcel in) {
-        Idcomercio = in.readString();
-        NombreComercio = in.readString();
-        Contraseña = in.readString();
-        UbicacionComercio = in.readString();
-    }
-
 
     public boolean VerificarDatos() {
         boolean b = false;
@@ -68,6 +62,7 @@ public class ComercioM {
                 SoapObject aux = (SoapObject) resSoap.getProperty(0);
                 NombreComercio = aux.getProperty(1).toString();
                 UbicacionComercio = aux.getProperty(3).toString();
+                Tipo = aux.getProperty(4).toString();
                 b = true;
             } else {
                 Log.e("Error: ", "Usuario duplicado");

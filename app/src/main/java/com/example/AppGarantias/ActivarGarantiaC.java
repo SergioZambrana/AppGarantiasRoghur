@@ -1,4 +1,4 @@
-package com.example.LoginGarantia;
+package com.example.AppGarantias;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,7 +24,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.LoginGarantia.model.SeriesM;
+import com.example.AppGarantias.model.SeriesM;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
@@ -41,7 +41,7 @@ public class ActivarGarantiaC extends AppCompatActivity {
 
     private static final int CODIGO_PERMISOS_CAMARA = 1, CODIGO_INTENT = 2;
     private boolean permisoCamaraConcedido = false, permisoSolicitadoDesdeBoton = false;
-    int mensajederespuesta;
+    int mensajederespuesta, estadoenvio;
     Calendar fechahoy;
     SeriesM producto;
     TextView datos;
@@ -50,7 +50,7 @@ public class ActivarGarantiaC extends AppCompatActivity {
     Button btnescanear, btnenviar, btnescanearmanual, btnatras;
     RecyclerView recycler;
     ArrayList<String> listDatos;
-    String fechainicio, fechafin, IdComercio;
+    String fechainicio, fechafin, IdComercio, tipo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +73,7 @@ public class ActivarGarantiaC extends AppCompatActivity {
 
         listDatos = new ArrayList<String>();
         IdComercio = getIntent().getStringExtra("IdComercio");
+        tipo = getIntent().getStringExtra("Tipo");
         fechahoy = Calendar.getInstance();
 
         btnescanear.setOnClickListener(new View.OnClickListener() {
@@ -124,6 +125,7 @@ public class ActivarGarantiaC extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(ActivarGarantiaC.this, MenuPrincipalC.class);
                 intent.putExtra("IdComercio", IdComercio);
+                intent.putExtra("Tipo", tipo);
                 startActivity(intent);
                 finish();
             }
@@ -229,6 +231,7 @@ public class ActivarGarantiaC extends AppCompatActivity {
         try {
             transporte.call(SOAP_ACTION, envelope);
             Object resSoap = envelope.getResponse();
+            estadoenvio = Integer.parseInt(resSoap.toString());
         } catch (Exception e) {
             Log.e("Error: ", e.getMessage());
         }
@@ -300,7 +303,12 @@ public class ActivarGarantiaC extends AppCompatActivity {
 
         protected void onPostExecute(Void Result) {
             barra_progreso.setVisibility(View.INVISIBLE);
-            Toast.makeText(ActivarGarantiaC.this, "Datos Enviados", Toast.LENGTH_SHORT).show();
+            if (estadoenvio == 0) {
+                Toast.makeText(ActivarGarantiaC.this, "Datos Enviados", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(ActivarGarantiaC.this, "Error Intente de Nuevo, si esto se repite contacte con sistemas", Toast.LENGTH_SHORT).show();
+            }
+
             numerodeserie.setText("");
             nombrecliente.setText("");
             docidentidad.setText("");

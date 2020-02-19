@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.LoginGarantia">
+    package="com.example.AppGarantias">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -13,11 +13,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ReclamarGarantiaC" />
-        <activity android:name=".EscanearC" />
-        <activity android:name=".ActivarGarantiaC" />
-        <activity android:name=".MenuPrincipalC" />
-        <activity android:name=".LoginC">
+        <activity android:name="com.example.AppGarantias.ReclamarGarantiaC" />
+        <activity android:name="com.example.AppGarantias.EscanearC" />
+        <activity android:name="com.example.AppGarantias.ActivarGarantiaC" />
+        <activity android:name="com.example.AppGarantias.MenuPrincipalC" />
+        <activity android:name="com.example.AppGarantias.LoginC">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

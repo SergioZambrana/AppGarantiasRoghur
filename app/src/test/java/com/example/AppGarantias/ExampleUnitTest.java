@@ -1,4 +1,4 @@
-package com.example.LoginGarantia;
+package com.example.AppGarantias;
 
 import org.junit.Test;
 

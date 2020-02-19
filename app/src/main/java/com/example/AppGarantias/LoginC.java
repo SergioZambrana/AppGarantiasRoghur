@@ -1,24 +1,19 @@
-package com.example.LoginGarantia;
+package com.example.AppGarantias;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.LoginGarantia.model.ComercioM;
-import com.github.javiersantos.appupdater.AppUpdater;
-import com.github.javiersantos.appupdater.enums.Display;
-import com.github.javiersantos.appupdater.enums.UpdateFrom;
+import com.example.AppGarantias.model.ComercioM;
 
 public class LoginC extends AppCompatActivity {
 
@@ -65,8 +60,10 @@ public class LoginC extends AppCompatActivity {
 
     private void revisarsesion() {
         String idComercio = SharedPref.readSharedSetting(LoginC.this, "IdComercio", "nada");
+        String tipo = SharedPref.readSharedSetting(LoginC.this, "Tipo", "nada");
         Intent intent = new Intent(LoginC.this, MenuPrincipalC.class);
         intent.putExtra("IdComercio", idComercio);
+        intent.putExtra("Tipo", tipo);
         if (!idComercio.equals("nada")) {
             startActivity(intent);
             finish();

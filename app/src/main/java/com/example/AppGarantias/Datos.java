@@ -1,4 +1,4 @@
-package com.example.LoginGarantia;
+package com.example.AppGarantias;
 
 public class Datos {
     private String titulo;

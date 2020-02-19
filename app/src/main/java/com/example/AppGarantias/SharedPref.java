@@ -1,4 +1,4 @@
-package com.example.LoginGarantia;
+package com.example.AppGarantias;
 
 import android.content.Context;
 import android.content.SharedPreferences;

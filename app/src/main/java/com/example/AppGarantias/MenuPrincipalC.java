@@ -1,4 +1,4 @@
-package com.example.LoginGarantia;
+package com.example.AppGarantias;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,7 +14,7 @@ public class MenuPrincipalC extends AppCompatActivity {
     private static final int INTERVALO = 2000;
     private long tiempoPrimerClick;
     Button btnActivar, btnReclamar, btnSalir;
-    String IdComercio;
+    String IdComercio, tipo;
     TextView user;
 
     @Override
@@ -27,14 +27,29 @@ public class MenuPrincipalC extends AppCompatActivity {
         btnReclamar = findViewById(R.id.buttonreclamargarantia);
         btnSalir = findViewById(R.id.buttonsalir);
         IdComercio = getIntent().getStringExtra("IdComercio");
+        tipo = getIntent().getStringExtra("tipo");
         user.setText("Usted esta logeado como " + IdComercio);
-        SharedPref.saveSharedSetting(MenuPrincipalC.this, "Id del Comercio", IdComercio);
+        SharedPref.saveSharedSetting(MenuPrincipalC.this, "IdComercio", IdComercio);
+        SharedPref.saveSharedSetting(MenuPrincipalC.this, "Tipo", tipo);
+
+        if (tipo.equals("1")) {
+            //Vendedor
+            btnReclamar.setEnabled(false);
+            btnReclamar.setVisibility(View.INVISIBLE);
+        } else {
+            if (tipo.equals("2")) {
+                //Servicio Tecnico
+                btnActivar.setEnabled(false);
+                btnReclamar.setVisibility(View.INVISIBLE);
+            }
+        }
 
         btnActivar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MenuPrincipalC.this, ActivarGarantiaC.class);
                 intent.putExtra("IdComercio", IdComercio);
+                intent.putExtra("IdComercio", tipo);
                 startActivity(intent);
             }
         });
@@ -44,6 +59,7 @@ public class MenuPrincipalC extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MenuPrincipalC.this, ReclamarGarantiaC.class);
                 intent.putExtra("IdComercio", IdComercio);
+                intent.putExtra("IdComercio", tipo);
                 startActivity(intent);
             }
         });
@@ -52,13 +68,13 @@ public class MenuPrincipalC extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 SharedPref.saveSharedSetting(getApplicationContext(), "IdComercio", "nada");
+                SharedPref.saveSharedSetting(getApplicationContext(), "Tipo", tipo);
                 Intent intent = new Intent(MenuPrincipalC.this, LoginC.class);
                 startActivity(intent);
                 finish();
             }
         });
 
-        SharedPref.saveSharedSetting(MenuPrincipalC.this, "IdComercio", IdComercio);
     }
 
 

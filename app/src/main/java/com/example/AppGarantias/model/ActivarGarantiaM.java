@@ -1,4 +1,4 @@
-package com.example.LoginGarantia.model;
+package com.example.AppGarantias.model;
 
 import android.util.Log;
 

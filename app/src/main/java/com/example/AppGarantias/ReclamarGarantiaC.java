@@ -1,4 +1,4 @@
-package com.example.LoginGarantia;
+package com.example.AppGarantias;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -27,7 +26,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.LoginGarantia.model.ActivarGarantiaM;
+import com.example.AppGarantias.model.ActivarGarantiaM;
 
 
 import org.ksoap2.SoapEnvelope;
@@ -40,17 +39,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Properties;
 
-import javax.mail.Authenticator;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 
 public class ReclamarGarantiaC extends AppCompatActivity {
 
@@ -58,11 +48,11 @@ public class ReclamarGarantiaC extends AppCompatActivity {
     private boolean permisoCamaraConcedido = false, permisoSolicitadoDesdeBoton = false;
     Button btnescanear, btnrealizarreclamo, btnescanearmanual, btnatras;
     EditText numerodeserie, nombrecliente, docidentidad, descripcionproblema;
-    int mensajederespuesta;
+    int mensajederespuesta, estadoenvio;
     Calendar fechahoy;
     TextView datos;
     ProgressBar barra_progreso;
-    String fechayhoraactual, IdComercio;
+    String fechayhoraactual, IdComercio, tipo;
     ActivarGarantiaM producto;
     ArrayList<String> listDatos;
     RecyclerView recycler;
@@ -90,6 +80,7 @@ public class ReclamarGarantiaC extends AppCompatActivity {
 
         listDatos = new ArrayList<String>();
         IdComercio = getIntent().getStringExtra("IdComercio");
+        tipo = getIntent().getStringExtra("Tipo");
         fechahoy = Calendar.getInstance();
 
 
@@ -145,6 +136,7 @@ public class ReclamarGarantiaC extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(ReclamarGarantiaC.this, MenuPrincipalC.class);
                 intent.putExtra("IdComercio", IdComercio);
+                intent.putExtra("Tipo", tipo);
                 startActivity(intent);
                 finish();
             }
@@ -249,6 +241,7 @@ public class ReclamarGarantiaC extends AppCompatActivity {
         try {
             transporte.call(SOAP_ACTION, envelope);
             Object resSoap = envelope.getResponse();
+            estadoenvio = Integer.parseInt(resSoap.toString());
         } catch (Exception e) {
             Log.e("Error: ", e.getMessage());
         }
@@ -329,7 +322,11 @@ public class ReclamarGarantiaC extends AppCompatActivity {
 
         protected void onPostExecute(Void Result) {
             barra_progreso.setVisibility(View.INVISIBLE);
-            Toast.makeText(ReclamarGarantiaC.this, "Datos Enviados", Toast.LENGTH_SHORT).show();
+            if (estadoenvio == 0) {
+                Toast.makeText(ReclamarGarantiaC.this, "Datos Enviados", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(ReclamarGarantiaC.this, "Error Intente de Nuevo, si esto se repite contacte con sistemas", Toast.LENGTH_SHORT).show();
+            }
             numerodeserie.setText("");
             nombrecliente.setText("");
             docidentidad.setText("");

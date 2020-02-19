@@ -22,11 +22,7 @@ android {
 dependencies {
     repositories {
         jcenter()
-        maven {
-            url "https://jitpack.io"
-        }
     }
-    implementation 'com.github.javiersantos:AppUpdater:2.7'
     implementation 'me.dm7.barcodescanner:zxing:1.9.13'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'androidx.appcompat:appcompat:1.1.0'
